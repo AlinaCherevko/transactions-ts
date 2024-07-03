@@ -1,4 +1,3 @@
-import React from "react";
 import { Section } from "../LoginPage/LoginPageStyles";
 import styled from "styled-components";
 

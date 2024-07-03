@@ -32,16 +32,14 @@ const TransactionPage = () => {
   }, [isSuccess, data]);
 
   const filterByType = (type: string) => {
-    const filteredTransactionsByType = data.filter(
-      (item) => item.Type === type
-    );
+    const filteredTransactionsByType =
+      data?.filter((item) => item.Type === type) || [];
     setFilteredData(filteredTransactionsByType);
   };
 
   const filterByStatus = (status: string) => {
-    const filteredTransactionsByStatus = data.filter(
-      (item) => item.Status === status
-    );
+    const filteredTransactionsByStatus =
+      data?.filter((item) => item.Status === status) || [];
     setFilteredData(filteredTransactionsByStatus);
   };
 

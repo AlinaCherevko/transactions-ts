@@ -1,5 +1,3 @@
-import React from "react";
-
 import { HeaderContainer, StyledNavLink } from "./HeaderStyles";
 
 const Header = () => {
