@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { FormEl, InputWrapper } from "./FormStyles";
 import * as Yup from "yup";
 import { Input } from "@chakra-ui/react";
@@ -50,7 +50,10 @@ const Form: React.FC<Props> = ({ formData, title }) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({ mode: "onChange", resolver: yupResolver(validationSchema) });
+  } = useForm<FieldValues>({
+    mode: "onChange",
+    resolver: yupResolver(validationSchema),
+  });
 
   const onSubmit = () => {
     reset();
@@ -69,7 +72,7 @@ const Form: React.FC<Props> = ({ formData, title }) => {
                   {...register(name)}
                   placeholder={label}
                 />
-                <p>{errors[name]?.message}</p>
+                <p>{errors[name]?.message as string}</p>
               </InputWrapper>
             );
           })}
