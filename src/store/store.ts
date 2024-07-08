@@ -11,11 +11,13 @@ export interface IZustant {
   login: (user: IUserData) => void;
   logout: () => void;
   checkAuth: () => void;
+  isLoading: boolean;
 }
 
 export const useAuthZustant = create<IZustant>((set) => ({
   user: null,
   isAuth: false,
+  isLoading: false,
   login: (user) => set({ user, isAuth: true }),
   logout: () => {
     logOutUser();
@@ -24,12 +26,15 @@ export const useAuthZustant = create<IZustant>((set) => ({
 
   checkAuth: async () => {
     try {
+      set({ isLoading: true });
       const data = await getCurrentUser();
-      console.log(data);
+      //console.log(data);
       set({ user: data, isAuth: true });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       set({ user: null, isAuth: false });
+    } finally {
+      set({ isLoading: false });
     }
   },
 }));
