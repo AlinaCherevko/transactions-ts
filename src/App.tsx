@@ -3,7 +3,7 @@ import { SharedLayout } from "./components";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
 import { RestrictedRoute } from "./components/RestrictedRoute/RestrictedRoute";
 import { useAuthZustant } from "./store/store";
-import { lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import Loader from "./components/Loader/Loader";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -38,36 +38,38 @@ function App() {
     );
   }
   return (
-    <Routes>
-      <Route path="/" element={<SharedLayout />}>
-        <Route index element={<HomePage />} />
-        <Route
-          path="/transactions"
-          element={
-            <PrivateRoute>
-              <TransactionPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <RestrictedRoute>
-              <LoginPage />
-            </RestrictedRoute>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <RestrictedRoute>
-              <RegisterPage />
-            </RestrictedRoute>
-          }
-        />
-      </Route>
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+    <Suspense>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<HomePage />} />
+          <Route
+            path="/transactions"
+            element={
+              <PrivateRoute>
+                <TransactionPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute>
+                <LoginPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <RestrictedRoute>
+                <RegisterPage />
+              </RestrictedRoute>
+            }
+          />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 }
 
