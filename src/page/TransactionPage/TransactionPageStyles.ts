@@ -18,7 +18,7 @@ export const Pagination = styled(ReactPaginate)`
 `;
 export const ButtonWrapper = styled.div`
   display: flex;
-  gap: 50px;
+  gap: 40px;
   margin-bottom: 30px;
 `;
 export const Section = styled.section`

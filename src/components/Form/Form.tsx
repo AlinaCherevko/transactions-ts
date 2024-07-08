@@ -4,6 +4,13 @@ import * as Yup from "yup";
 import { Input } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@chakra-ui/react";
+import { useAuthZustant } from "../../store/store";
+import { IUser, logInUser, registerUser } from "../../servises/servises";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+
+//import { AxiosError } from "axios";
 
 type Props = {
   title: string;
@@ -15,6 +22,10 @@ type FormField = {
 };
 
 const Form: React.FC<Props> = ({ formData, title }) => {
+  const { login } = useAuthZustant();
+
+  const navigate = useNavigate();
+
   // Створення схеми валідації
   const createValidationSchema = (formData: FormField[]) => {
     const schemaFields: Record<string, Yup.AnySchema> = {};
@@ -42,9 +53,7 @@ const Form: React.FC<Props> = ({ formData, title }) => {
     });
     return Yup.object().shape(schemaFields);
   };
-
   const validationSchema = createValidationSchema(formData);
-
   const {
     register,
     handleSubmit,
@@ -54,34 +63,61 @@ const Form: React.FC<Props> = ({ formData, title }) => {
     mode: "onChange",
     resolver: yupResolver(validationSchema),
   });
+  //---------------onSubmit---------------//
+  const onSubmit = async (data: FieldValues) => {
+    if (title === "Sign Up") {
+      console.log(data);
+      try {
+        await registerUser(data as IUser);
+        toast.success("User was sign up!");
+        navigate("/login");
 
-  const onSubmit = () => {
+        // Redirect to login or another page
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.data)
+          toast.error(
+            (axiosError.response.data as { message: string }).message
+          );
+      }
+    }
+    if (title === "Log In") {
+      try {
+        const user = await logInUser(data as Omit<IUser, "name">);
+        login(user);
+        toast.success("User was logged in!");
+        navigate("/transactions");
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.data)
+          toast.error(
+            (axiosError.response.data as { message: string }).message
+          );
+      }
+    }
     reset();
   };
-
   return (
-    <>
-      <FormEl onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          {formData.map(({ name, label }) => {
-            return (
-              <InputWrapper key={name}>
-                <Input
-                  size="md"
-                  type={name === "password" ? "password" : "text"}
-                  {...register(name)}
-                  placeholder={label}
-                />
-                <p>{errors[name]?.message as string}</p>
-              </InputWrapper>
-            );
-          })}
-        </div>
-        <Button size="md" colorScheme="teal" type="submit">
-          {title}
-        </Button>
-      </FormEl>
-    </>
+    <FormEl onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        {formData.map(({ name, label }) => {
+          return (
+            <InputWrapper key={name}>
+              <Input
+                size="md"
+                type={name === "password" ? "password" : "text"}
+                {...register(name)}
+                placeholder={label}
+              />
+              <p>{errors[name]?.message as string}</p>
+            </InputWrapper>
+          );
+        })}
+      </div>
+      <Button size="md" colorScheme="teal" type="submit">
+        {title}
+      </Button>
+    </FormEl>
   );
 };
 

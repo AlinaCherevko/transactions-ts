@@ -8,6 +8,7 @@ import { ButtonWrapper, Pagination } from "./TransactionPageStyles";
 import { StatusSelector } from "../../components/StatusSelector/StatusSelector";
 import { TypeSelector } from "../../components/TypeSelector/TypeSelector";
 import { ExportBtn } from "../../components/ExportBtn/ExportBtn";
+import Filter from "../../components/Filter/Filter";
 const isAuth = true;
 
 interface IPageClickEvent {
@@ -60,6 +61,7 @@ const TransactionPage = () => {
         <ButtonWrapper>
           <StatusSelector filterByStatus={filterByStatus} />
           <TypeSelector filterByType={filterByType} />
+          <Filter />
           <ImportBtn />
           <ExportBtn data={data || []} />
         </ButtonWrapper>

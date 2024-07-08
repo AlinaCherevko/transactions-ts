@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const TableElement: React.FC<Props> = ({ data }) => {
-  console.log(data);
+  //console.log(data);
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation({

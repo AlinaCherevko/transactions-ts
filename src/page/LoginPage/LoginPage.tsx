@@ -1,6 +1,9 @@
 import Form from "../../components/Form/Form";
 import { Section } from "./LoginPageStyles";
 
+//import { toast } from "react-toastify";
+//import { AxiosError } from "axios";
+
 const LoginPage = () => {
   const formData = [
     { name: "email", label: "Email" },
@@ -18,3 +21,8 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+// onError: (error: AxiosError) => {
+//   if (error.response && error.response.data)
+//     toast.error((error.response.data as { message: string }).message);
+// },

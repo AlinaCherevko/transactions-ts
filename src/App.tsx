@@ -7,15 +7,48 @@ import LoginPage from "./page/LoginPage/LoginPage";
 import RegisterPage from "./page/RegisterPage/RegisterPage";
 import "react-toastify/dist/ReactToastify.css";
 
+import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
+import { RestrictedRoute } from "./components/RestrictedRoute/RestrictedRoute";
+import { useAuthZustant } from "./store/store";
+import { useEffect } from "react";
+
 function App() {
+  const { checkAuth, user } = useAuthZustant();
+  console.log(user);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   return (
     <>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/transactions" element={<TransactionPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<RegisterPage />} />
+          <Route
+            path="/transactions"
+            element={
+              <PrivateRoute>
+                <TransactionPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute>
+                <LoginPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <RestrictedRoute>
+                <RegisterPage />
+              </RestrictedRoute>
+            }
+          />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -8,7 +8,7 @@ export const StatusSelector: React.FC<Props> = ({ filterByStatus }) => {
     filterByStatus(e.target.value);
   };
   return (
-    <Box width="400px">
+    <Box width="300px">
       <Select placeholder="Status" onChange={onSelectChange}>
         <option value="Pending">Pending</option>
         <option value="Completed">Completed</option>

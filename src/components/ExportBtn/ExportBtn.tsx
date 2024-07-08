@@ -23,7 +23,7 @@ export const ExportBtn: React.FC<Props> = ({ data }) => {
     ClientName: item.ClientName,
     Amount: item.Amount,
   }));
-  //console.log(csvData);
+
   const downloadCSV = async () => {
     try {
       const csv = await json2csv(csvData, {

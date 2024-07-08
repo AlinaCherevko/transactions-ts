@@ -9,7 +9,7 @@ export const TypeSelector: React.FC<Props> = ({ filterByType }) => {
     filterByType(e.target.value);
   };
   return (
-    <Box width="400px">
+    <Box width="300px">
       <Select placeholder="Type" onChange={onSelectChange}>
         <option value="Refill">Refill</option>
         <option value="Withdrawal">Withdrawal</option>
